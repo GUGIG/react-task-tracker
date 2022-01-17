@@ -1,22 +1,21 @@
 # React Study ("React JS Crash Course(1/19/2021)" by Traversy Media)
   
-## Studying React.js library via Traversy media's crash course Youtube video.  
+### 1. Studying React.js library via Traversy media's crash course Youtube video  
 I used function components with basic hooks that are -  
 - useState
 - useEffect
 - useRef
   
   
-## Also I used routing library of react: "React Router".  
+### 2. Also I used routing library of react: "React Router".  
 Since the study material was posted *before* React Router v6 was released, I had to find different videos/blog posts to write v6 syntax.  
-  
 Major differences between v5 and v6 that I studied so far:  
 - Switch vs Routes
 - no "exact" attribute
 - wildcard character "*" now used in path, undefined route, etc in v6
 
   
-## Stuffs that I want to add/implement into this project
+### 3. Stuffs that I want to add/implement into this project
 - context api
 - custom hooks
 - nested route
