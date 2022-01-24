@@ -118,6 +118,13 @@ body {
 footer {
   margin-top: 30px;
   text-align: center;
+}
+
+.about .nav {
+  display: flex;
+  flex-direction: column;
+}
+
 .add-task-form-container {
   background-color: #eeeeee;
   padding: .5rem;
