@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../Contexts/Contexts";
 
 const AddTask = ({ onAddTask }) => {
     const [text, setText] = useState("");
     const [day, setDay] = useState("");
     const [reminder, setReminder] = useState(false);
+    const { user: { name } } = useContext(UserContext);
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -13,7 +15,7 @@ const AddTask = ({ onAddTask }) => {
             return;
         }
 
-        onAddTask({ text, day, reminder, });
+        onAddTask(name, { text, day, reminder, });
 
         setText("");
         setDay("");

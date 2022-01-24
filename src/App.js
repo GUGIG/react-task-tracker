@@ -1,6 +1,4 @@
 import Header from "./components/Header";
-import Tasks from "./components/Tasks";
-import AddTask from "./components/AddTask";
 import Home from "./Pages/Home";
 import Footer from "./components/Footer"
 import About from "./Pages/About";
@@ -9,35 +7,24 @@ import Author from "./Pages/Author";
 import { useState, useEffect, useRef } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 
+import { UserContext } from "./Contexts/Contexts";
+
 function App() {
   const [tasks, setTasks] = useState([]);
   const JSON_URL = useRef("http://localhost:8000");
-
-  useEffect(() => {
-    const getTasks = async () => {
-      const tasksFromServer = await fetchTasks();
-      setTasks(tasksFromServer);
-    }
-
-    getTasks();
-  }, []);
-
-  const fetchTasks = async () => {
-    const response = await fetch(`${JSON_URL.current}/tasks`);
-    const data = await response.json();
-    return data;
+  
+  const fetchTasks = async (username) => {
+    const response = await fetch(`${JSON_URL.current}/${username}`);
+    const tasks = await response.json();
+    return tasks;
   }
-
-  const fetchTask = async (id) => {
-    const response = await fetch(`${JSON_URL.current}/tasks/${id}`);
-    const data = await response.json();
-    return data;
+  const fetchTask = async (username, taskId) => {
+    const response = await fetch(`${JSON_URL.current}/${username}/${taskId}`);
+    const task = await response.json();
+    return task;
   }
-
-  const [isAddTask, setIsAddTask] = useState(false);
-
-  const addTask = async (task) => {
-    const response = await fetch(`${JSON_URL.current}/tasks`, {
+  const addTask = async (username, task) => {
+    const response = await fetch(`${JSON_URL.current}/${username}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json"
@@ -48,20 +35,18 @@ function App() {
     const data = await response.json();
     setTasks([...tasks, data]);
   }
-
-  const deleteTask = async (id) => {
-    await fetch(`${JSON_URL.current}/tasks/${id}`, { method: "DELETE" });
-    setTasks(tasks.filter(task => task.id !== id));
+  const deleteTask = async (username, taskId) => {
+    await fetch(`${JSON_URL.current}/${username}/${taskId}`, { method: "DELETE" });
+    setTasks(tasks.filter(task => task.id !== taskId));
   }
-
-  const toggleReminder = async (id) => {
-    const taskToToggle = await fetchTask(id);
+  const toggleReminder = async (username, taskId) => {
+    const taskToToggle = await fetchTask(username, taskId);
     const toggledTask = {
       ...taskToToggle,
       reminder: !taskToToggle.reminder
-    }
+    }   
 
-    const response = await fetch(`${JSON_URL.current}/tasks/${id}`, {
+    const response = await fetch(`${JSON_URL.current}/${username}/${taskId}`, {
       method: "PUT",
       headers: {
         "Content-type": "application/json"
@@ -74,40 +59,45 @@ function App() {
     setTasks(tasks.map((task) => task.id === resultTask.id ? resultTask : task));
   }
 
+  const [isAddTask, setIsAddTask] = useState(false);
+  
+  const [userGlobalState, setUserGlobalState] = useState({
+    name: "jaehun",
+  });
+  const toggleUserName = () => {
+    if(userGlobalState.name === "jaehun") {
+      setUserGlobalState({...userGlobalState, name: "cheolsu"});
+    } else {
+      setUserGlobalState({...userGlobalState, name: "jaehun" });
+    }
+  }
+  const userContextValue = { user: userGlobalState, toggleUser: toggleUserName};
+
+  useEffect(() => {
+    (async () => {
+      const t = await fetchTasks(userGlobalState.name);
+      setTasks(t);
+    })()
+  }, [userGlobalState]);
   return (
     <BrowserRouter>
       <div className="container">
-        <Header
-          title="Task Tracker"
-          onAdd={() => setIsAddTask(!isAddTask)}
-          isAddTask={isAddTask}
-        />
-        <Routes>
-          <Route path="/" element={
-            <>
-              {isAddTask && <AddTask onAddTask={addTask} />}
-              {
-                tasks.length > 0 ?
-                  <Tasks
-                    tasks={tasks}
-                    onDelete={deleteTask}
-                    onToggleReminder={toggleReminder}
-                  />
-                  :
-                  "No tasks to show"
-              }
-            </>
-          } />
-          <Route path="/about" element={<About />} />
-          <Route path="*" element={<><h1>404 Page Not Found</h1></>} />
-        </Routes>
-        <Footer />
+        <UserContext.Provider value={userContextValue}>
+          <Header
+            title="Task Tracker"
+            onAdd={() => setIsAddTask(!isAddTask)}
+            isAddTask={isAddTask}
+          />
           <Routes>
             <Route path="/" element={<Home props={homeProps} />} />
             <Route path="/about" element={<About />}>
               <Route path="version" element={<Version />} />
               <Route path="author" element={<Author />} />
             </Route>
+            <Route path="*" element={<><h1>404 Page Not Found</h1></>} />
+          </Routes>
+          <Footer />
+        </UserContext.Provider>
       </div>
     </BrowserRouter>
   );
