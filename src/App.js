@@ -79,6 +79,15 @@ function App() {
       setTasks(t);
     })()
   }, [userGlobalState]);
+
+  const homeProps = {
+    isAddTask: isAddTask,
+    addTask: addTask,
+    tasks: tasks,
+    deleteTask: deleteTask,
+    toggleReminder: toggleReminder,
+  };
+
   return (
     <BrowserRouter>
       <div className="container">
