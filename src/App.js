@@ -1,8 +1,11 @@
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
+import Home from "./Pages/Home";
 import Footer from "./components/Footer"
-import About from "./components/About";
+import About from "./Pages/About";
+import Version from "./Pages/Version";
+import Author from "./Pages/Author";
 import { useState, useEffect, useRef } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 
@@ -99,6 +102,12 @@ function App() {
           <Route path="*" element={<><h1>404 Page Not Found</h1></>} />
         </Routes>
         <Footer />
+          <Routes>
+            <Route path="/" element={<Home props={homeProps} />} />
+            <Route path="/about" element={<About />}>
+              <Route path="version" element={<Version />} />
+              <Route path="author" element={<Author />} />
+            </Route>
       </div>
     </BrowserRouter>
   );
