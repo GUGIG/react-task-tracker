@@ -16,9 +16,9 @@ Major differences between v5 and v6 that I studied so far:
 
   
 ### 3. Stuffs that I want to add/implement into this project
-- context api
+- context api ✅
 - custom hooks
-- nested route
+- nested route ✅
 
 ---
 
