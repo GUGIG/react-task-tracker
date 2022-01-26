@@ -16,7 +16,10 @@ Major differences between v5 and v6 that I studied so far:
 - ✅ useState
 - ✅ useEffect
 - ✅ useRef
-- ✅ context api
+- ✅ useMemo
+- ✅ useCallback
+- ✅ React.memo
+- ✅ context api (useConetxt, etc)
 - ✅ nested route
 - custom hooks
 
