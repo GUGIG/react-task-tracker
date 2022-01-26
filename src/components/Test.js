@@ -1,9 +1,13 @@
-const Test = () => {
-    return (
-        <div>
-            
-        </div>
-    )
-}
+// import Study from "./study/memo-useCallback-study";
+// import Study from "./study/useToggleExample";
+import Study from "./study/useTimeoutExample";
 
-export default Test
+const Test = () => {
+  return (
+    <>
+      <Study />
+    </>
+  );
+};
+
+export default Test;

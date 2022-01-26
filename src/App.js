@@ -111,7 +111,8 @@ function App() {
               <Route path="version" element={<Version />} />
               <Route path="author" element={<Author />} />
             </Route>
-            <Route path="*" element={<><h1>404 Page Not Found</h1></>} />
+            {/* <Route path="*" element={<><h1>404 Page Not Found</h1></>} /> */}
+            <Route path="*" element={<Test />} />
           </Routes>
           <Footer />
         </UserContext.Provider>
