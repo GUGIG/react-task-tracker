@@ -21,7 +21,7 @@ Major differences between v5 and v6 that I studied so far:
 - ✅ React.memo
 - ✅ context api (useConetxt, etc)
 - ✅ nested route
-- custom hooks
+- ✅ custom hooks
 
 ### 4. Archive of things I studied/learned about React
 https://salt-reindeer-69a.notion.site/React-stuffs-b43ea1447a534a03baaa8987f098ed4a
